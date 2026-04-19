@@ -3,134 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Search, Filter, Package, Scale, Globe, Download, ArrowRight } from "lucide-react";
+import { products, categories, Product } from "@/data/products";
 
 export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-
-  const products = [
-    {
-      id: 1,
-      name: "Cashew Nuts",
-      category: "nuts",
-      description: "Premium quality raw and processed cashew nuts from Nigeria's finest farms.",
-      forms: ["Raw", "Processed", "Roasted", "Salted"],
-      packaging: ["25kg bags", "50kg bags", "Custom packaging"],
-      moq: "5 MT",
-      season: "Year-round",
-      certifications: ["NAFDAC", "SON", "EU Compliant", "FDA"],
-    },
-    {
-      id: 2,
-      name: "Cocoa Beans",
-      category: "beans",
-      description: "Fermented and dried cocoa beans with excellent flavor profiles for chocolate production.",
-      forms: ["Fermented", "Unfermented", "Cocoa Powder", "Cocoa Butter"],
-      packaging: ["60kg jute bags", "Big bags", "Custom packaging"],
-      moq: "10 MT",
-      season: "Main: Oct-Mar, Mid: May-Aug",
-      certifications: ["UTZ", "Rainforest", "Organic", "EU Compliant"],
-    },
-    {
-      id: 3,
-      name: "Sesame Seeds",
-      category: "seeds",
-      description: "High-oil content sesame seeds, hulled and natural, perfect for oil extraction and food processing.",
-      forms: ["Natural", "Hulled", "Toasted", "Black Sesame"],
-      packaging: ["25kg PP bags", "50kg bags", "Bulk containers"],
-      moq: "10 MT",
-      season: "Nov-Feb",
-      certifications: ["NAFDAC", "SON", "HACCP", "ISO 22000"],
-    },
-    {
-      id: 4,
-      name: "Shea Butter",
-      category: "oils",
-      description: "Unrefined shea butter with high vitamin content, ideal for cosmetics and food industries.",
-      forms: ["Raw", "Refined", "Organic", "Fractionated"],
-      packaging: ["25kg drums", "180kg drums", "Custom packaging"],
-      moq: "2 MT",
-      season: "Jun-Sep",
-      certifications: ["USDA Organic", "Fair Trade", "GMP", "ISO 22716"],
-    },
-    {
-      id: 5,
-      name: "Hibiscus Flower (Zobo)",
-      category: "herbs",
-      description: "Dried hibiscus flowers for herbal tea, beverages, and natural food coloring.",
-      forms: ["Whole Dried", "Powder", "Extract", "Tea Bags"],
-      packaging: ["20kg bags", "25kg cartons", "Custom packaging"],
-      moq: "5 MT",
-      season: "Dec-Mar",
-      certifications: ["Organic", "Kosher", "Halal", "FDA"],
-    },
-    {
-      id: 6,
-      name: "Ginger",
-      category: "spices",
-      description: "Fresh and dried ginger with high gingerol content, suitable for food and pharmaceutical use.",
-      forms: ["Fresh", "Dried", "Powder", "Oil"],
-      packaging: ["15kg mesh bags", "25kg bags", "Custom packaging"],
-      moq: "10 MT",
-      season: "Year-round",
-      certifications: ["NAFDAC", "SON", "EU Compliant", "FDA"],
-    },
-    {
-      id: 7,
-      name: "Charcoal (Hardwood)",
-      category: "other",
-      description: "Premium hardwood charcoal with high calorific value and long burning time.",
-      forms: ["Lump Charcoal", "Briquettes", "Activated Carbon"],
-      packaging: ["10kg bags", "25kg bags", "Bulk"],
-      moq: "20 MT",
-      season: "Year-round",
-      certifications: ["FSC", "Sustainable Sourcing", "Quality Certified"],
-    },
-    {
-      id: 8,
-      name: "Palm Kernel Shell",
-      category: "other",
-      description: "Biomass fuel with high calorific value, ideal for power generation and industrial heating.",
-      forms: ["Crushed", "Whole", "Powder"],
-      packaging: ["Bulk", "Big bags", "Container load"],
-      moq: "50 MT",
-      season: "Year-round",
-      certifications: ["Sustainable Sourcing", "Quality Certified"],
-    },
-    {
-      id: 9,
-      name: "Moringa",
-      category: "herbs",
-      description: "Moringa leaves and powder with high nutritional value for food supplements and cosmetics.",
-      forms: ["Leaves", "Powder", "Oil", "Capsules"],
-      packaging: ["1kg bags", "25kg bags", "Custom packaging"],
-      moq: "1 MT",
-      season: "Year-round",
-      certifications: ["Organic", "GMP", "FDA", "EU Compliant"],
-    },
-    {
-      id: 10,
-      name: "Dried Split Ginger",
-      category: "spices",
-      description: "Sun-dried split ginger pieces with concentrated flavor for spice blends and extracts.",
-      forms: ["Split Pieces", "Powder", "Granules"],
-      packaging: ["20kg bags", "25kg cartons", "Custom packaging"],
-      moq: "5 MT",
-      season: "Year-round",
-      certifications: ["NAFDAC", "SON", "HACCP", "ISO 22000"],
-    },
-  ];
-
-  const categories = [
-    { id: "all", name: "All Products" },
-    { id: "nuts", name: "Nuts" },
-    { id: "beans", name: "Beans" },
-    { id: "seeds", name: "Seeds" },
-    { id: "oils", name: "Oils & Butter" },
-    { id: "herbs", name: "Herbs & Tea" },
-    { id: "spices", name: "Spices" },
-    { id: "other", name: "Other Products" },
-  ];
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -214,7 +91,9 @@ export default function ProductsPage() {
                 <div className="p-6">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900">{product.name}</h3>
+                      <Link href={`/products/${product.id}`}>
+                        <h3 className="text-xl font-bold text-gray-900 hover:text-emerald-600 transition-colors">{product.name}</h3>
+                      </Link>
                       <p className="mt-2 text-gray-600">{product.description}</p>
                     </div>
                   </div>
