@@ -1,0 +1,27 @@
+# Render configuration for KAKAS GLOBAL website
+services:
+  - type: web
+    name: kakas-global
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+    healthCheckPath: /
+    autoDeploy: true
+    plan: free
+
+# Build settings
+buildFilter:
+  paths:
+    - package.json
+    - package-lock.json
+    - next.config.js
+    - tsconfig.json
+    - app/**
+    - components/**
+    - public/**
+
+# Environment variables (set these in Render dashboard)
+# - NEXT_PUBLIC_SITE_URL: https://kakasglobal.com
