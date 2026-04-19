@@ -1,16 +1,142 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle, Globe, Truck, Shield, Package } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, CheckCircle, Globe, Truck, Shield, Package, ChevronLeft, ChevronRight } from "lucide-react";
+import { products as allProducts } from "@/data/products";
+
+function AutoSlideshow({ images }: { images: string[] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [transitionType, setTransitionType] = useState<'fade' | 'slide-left' | 'slide-right' | 'zoom'>('fade');
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Array of transition types to cycle through
+  const transitionTypes: Array<'fade' | 'slide-left' | 'slide-right' | 'zoom'> = [
+    'fade', 'slide-left', 'slide-right', 'zoom'
+  ];
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      
+      // Set random transition type for next slide
+      const nextTransition = transitionTypes[Math.floor(Math.random() * transitionTypes.length)];
+      setTransitionType(nextTransition);
+      
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setIsTransitioning(false);
+      }, 1000); // Slower transition duration (1 second)
+    }, 7000); // Much slower slideshow timeout (7 seconds)
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  const goToSlide = (index: number) => {
+    setIsTransitioning(true);
+    const nextTransition = transitionTypes[Math.floor(Math.random() * transitionTypes.length)];
+    setTransitionType(nextTransition);
+    
+    setTimeout(() => {
+      setCurrentIndex(index);
+      setIsTransitioning(false);
+    }, 800);
+  };
+
+  // Get transition classes based on transition type
+  const getTransitionClasses = () => {
+    switch (transitionType) {
+      case 'fade':
+        return `transition-opacity duration-1000 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`;
+      case 'slide-left':
+        return `transition-transform duration-1000 ${isTransitioning ? '-translate-x-full' : 'translate-x-0'}`;
+      case 'slide-right':
+        return `transition-transform duration-1000 ${isTransitioning ? 'translate-x-full' : 'translate-x-0'}`;
+      case 'zoom':
+        return `transition-all duration-1000 ${isTransitioning ? 'scale-110 opacity-0' : 'scale-100 opacity-100'}`;
+      default:
+        return `transition-opacity duration-1000 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`;
+    }
+  };
+
+  if (images.length === 0) {
+    return (
+      <div className="w-full h-full bg-gradient-to-br from-emerald-500 to-amber-500 flex items-center justify-center">
+        <div className="text-center text-white p-8">
+          <Package className="h-16 w-16 mx-auto mb-4" />
+          <h3 className="text-2xl font-bold">Premium Quality Assurance</h3>
+          <p className="mt-2 opacity-90">Every shipment meets international standards</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative w-full h-full overflow-hidden">
+      {/* Current Image with Dynamic Transition */}
+      <div className={`absolute inset-0 ${getTransitionClasses()}`}>
+        <Image
+          src={images[currentIndex]}
+          alt="Kakas Global premium agricultural export product"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority={currentIndex === 0}
+        />
+        {/* Remove bottom gradient overlay since we have left gradient overlay in hero section */}
+      </div>
+
+      {/* Slideshow Indicators - Keep but position at bottom center */}
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2 z-20">
+        {images.slice(0, Math.min(5, images.length)).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`h-3 w-3 rounded-full transition-all ${
+              index === currentIndex 
+                ? 'bg-white scale-110' 
+                : 'bg-white/50 hover:bg-white/70'
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Navigation Arrows - Position at edges of viewport */}
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={() => goToSlide((currentIndex - 1 + images.length) % images.length)}
+            className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-4 rounded-full backdrop-blur-sm transition-all z-20 hover:scale-110"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft className="h-6 w-6 text-white" />
+          </button>
+          <button
+            onClick={() => goToSlide((currentIndex + 1) % images.length)}
+            className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-4 rounded-full backdrop-blur-sm transition-all z-20 hover:scale-110"
+            aria-label="Next slide"
+          >
+            <ChevronRight className="h-6 w-6 text-white" />
+          </button>
+        </>
+      )}
+
+    </div>
+  );
+}
 
 export default function Home() {
-  const products = [
-    { name: "Cashew Nuts", image: "/cashew.jpg" },
-    { name: "Cocoa Beans", image: "/cocoa.jpg" },
-    { name: "Sesame Seeds", image: "/sesame.jpg" },
-    { name: "Shea Butter", image: "/shea.jpg" },
-    { name: "Hibiscus Flower", image: "/hibiscus.jpg" },
-    { name: "Ginger", image: "/ginger.jpg" },
-  ];
+  // Get first 6 products for homepage display
+  const featuredProducts = allProducts.slice(0, 6);
+  
+  // Get images for homepage slideshow (first image from each product)
+  const slideshowImages = allProducts
+    .filter(product => product.images && product.images.length > 0)
+    .map(product => product.images![0]);
 
   const stats = [
     { value: "15+", label: "Years Experience" },
@@ -28,24 +154,65 @@ export default function Home() {
     "HACCP",
   ];
 
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Kakas Global Limited",
+    url: "https://kakasglobal.com",
+    logo: "https://kakasglobal.com/logo.svg",
+    description: "Leading Nigerian exporter of premium agricultural raw materials including cashew nuts, sesame seeds, shea butter, hibiscus flower, ginger, and moringa.",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "44 Ahmadu Bello Way, Nasarawa GRA",
+      addressLocality: "Kano",
+      addressCountry: "NG",
+    },
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: "+234-704-058-1036",
+        contactType: "sales",
+        availableLanguage: ["English", "French", "Arabic"],
+      },
+    ],
+    sameAs: [
+      "https://www.linkedin.com/company/kakas-global",
+      "https://www.facebook.com/kakasglobal",
+    ],
+  };
+
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-amber-50">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
-        <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-800 mb-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      {/* Hero Section - Full-bleed slideshow background */}
+      <section className="relative h-screen w-full overflow-hidden">
+        {/* Full-bleed slideshow background */}
+        <div className="absolute inset-0 z-0">
+          <AutoSlideshow images={slideshowImages} />
+        </div>
+        
+        {/* Dark gradient overlay for text readability */}
+        <div className="absolute inset-0 z-1 bg-gradient-to-r from-black/55 via-black/20 to-transparent"></div>
+        
+        {/* Content container */}
+        <div className="relative z-10 h-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="h-full flex items-center">
+            <div className="w-full sm:max-w-[65%] lg:max-w-[50%] px-4 sm:pl-[5%] sm:pr-0">
+              <div className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-500/20 px-4 py-2 text-sm font-medium text-white mb-6 backdrop-blur-sm">
                 <Globe className="h-4 w-4 mr-2" />
                 Exporting from Nigeria to the World Since 2010
               </div>
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
                 From Nigeria's Farms to the World's Markets
               </h1>
-              <p className="mt-6 text-lg text-gray-600">
-                KAKAS GLOBAL LIMITED is your trusted partner for premium agricultural raw materials. 
-                We source, process, and export the finest Nigerian agricultural products to international buyers 
+              <p className="mt-6 text-lg leading-relaxed text-white/85">
+                KAKAS GLOBAL LIMITED is your trusted partner for premium agricultural raw materials.
+                We source, process, and export the finest Nigerian agricultural products to international buyers
                 with uncompromising quality and reliability.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
@@ -58,30 +225,21 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/products"
-                  className="inline-flex items-center justify-center rounded-full border-2 border-emerald-600 px-8 py-3 text-base font-medium text-emerald-600 hover:bg-emerald-50 transition-colors"
+                  className="inline-flex items-center justify-center rounded-full border-2 border-white/30 bg-white/10 px-8 py-3 text-base font-medium text-white backdrop-blur-sm hover:bg-white/20 transition-colors"
                 >
                   View Products
                 </Link>
               </div>
             </div>
-            <div className="relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <div className="aspect-[4/3] bg-gradient-to-br from-emerald-500 to-amber-500"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                  <h3 className="text-2xl font-bold">Premium Quality Assurance</h3>
-                  <p className="mt-2 opacity-90">Every shipment meets international standards</p>
-                </div>
-              </div>
-              {/* Floating stats cards */}
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-xl p-6 w-64">
-                <div className="flex items-center">
-                  <Truck className="h-8 w-8 text-emerald-600" />
-                  <div className="ml-4">
-                    <div className="text-2xl font-bold text-gray-900">Global Logistics</div>
-                    <div className="text-sm text-gray-600">FOB, CIF, CFR terms</div>
-                  </div>
-                </div>
+          </div>
+          
+          {/* Global Logistics tile moved to bottom-right */}
+          <div className="hidden sm:block absolute bottom-8 right-8 z-20 bg-white/95 rounded-xl shadow-lg p-4 w-64 backdrop-blur-sm">
+            <div className="flex items-center">
+              <Truck className="h-8 w-8 text-emerald-600" />
+              <div className="ml-4">
+                <div className="text-xl font-bold text-gray-900">Global Logistics</div>
+                <div className="text-sm text-gray-600">FOB, CIF, CFR terms</div>
               </div>
             </div>
           </div>
@@ -109,26 +267,41 @@ export default function Home() {
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Our Premium Products
             </h2>
-            <p className="mt-4 text-lg text-gray-600">
+            <p className="mt-4 text-lg leading-relaxed text-gray-600">
               High-quality agricultural raw materials sourced directly from Nigerian farms
             </p>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
+            {featuredProducts.map((product) => (
               <div
-                key={product.name}
-                className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:shadow-xl"
+                key={product.id}
+                className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-200 hover:shadow-xl"
               >
-                <div className="aspect-[4/3] bg-gradient-to-br from-emerald-100 to-amber-100"></div>
+                <div className="aspect-[4/3] relative overflow-hidden">
+                  {product.images && product.images.length > 0 ? (
+                    <Image
+                      src={product.images[0]}
+                      alt={`${product.name} – Nigerian agricultural export`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-emerald-100 to-amber-100 flex items-center justify-center">
+                      <Package className="h-12 w-12 text-emerald-300" />
+                    </div>
+                  )}
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900">{product.name}</h3>
-                  <p className="mt-2 text-gray-600">
-                    Available in raw, processed, and powdered forms with custom packaging options.
+                  <p className="mt-2 text-gray-600 line-clamp-2">
+                    {product.description}
                   </p>
                   <div className="mt-4 flex items-center justify-between">
-                    <span className="text-sm font-medium text-emerald-700">Request Sample</span>
+                    <span className="text-sm font-medium text-emerald-700">{product.moq}</span>
                     <Link
-                      href={`/products#${product.name.toLowerCase().replace(/\s+/g, "-")}`}
+                      href={`/products/${product.id}`}
                       className="text-emerald-600 hover:text-emerald-700"
                     >
                       <ArrowRight className="h-5 w-5" />
@@ -158,8 +331,8 @@ export default function Home() {
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 Certified Quality & Compliance
               </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                We adhere to the highest international standards to ensure our products meet 
+              <p className="mt-4 text-lg leading-relaxed text-gray-600">
+                We adhere to the highest international standards to ensure our products meet
                 regulatory requirements in all destination markets.
               </p>
               <div className="mt-8 grid grid-cols-2 gap-4">

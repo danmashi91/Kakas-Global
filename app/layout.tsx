@@ -8,17 +8,19 @@ import WhatsAppWidget from "@/components/WhatsAppWidget";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "KAKAS GLOBAL LIMITED - Premium Agricultural Exports from Nigeria",
-  description: "Leading Nigerian exporter of premium agricultural raw materials including cashew nuts, cocoa beans, sesame seeds, shea butter, and more. Serving international buyers worldwide.",
-  keywords: "Nigeria agricultural exports, cashew nuts, cocoa beans, sesame seeds, shea butter, hibiscus, ginger, moringa, agricultural raw materials, B2B export",
-  authors: [{ name: "KAKAS GLOBAL LIMITED" }],
+  title: "Kakas Global Limited — Premium Agricultural Exports from Nigeria",
+  description: "Leading Nigerian exporter of premium agricultural raw materials including cashew nuts, sesame seeds, shea butter, hibiscus, ginger, and moringa. Serving international buyers in 50+ countries.",
+  keywords: "Nigeria agricultural exports, cashew nuts, sesame seeds, shea butter, hibiscus flower, ginger export, moringa, agricultural raw materials, B2B export, Nigeria exporter",
+  authors: [{ name: "Kakas Global Limited" }],
+  robots: "index, follow",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://kakasglobal.com",
-    title: "KAKAS GLOBAL LIMITED - Premium Agricultural Exports from Nigeria",
-    description: "Leading Nigerian exporter of premium agricultural raw materials",
-    siteName: "KAKAS GLOBAL LIMITED",
+    title: "Kakas Global Limited — Premium Agricultural Exports from Nigeria",
+    description: "Trusted Nigerian exporter of premium agricultural raw materials to buyers in 50+ countries.",
+    siteName: "Kakas Global Limited",
+    images: [{ url: "https://kakasglobal.com/og-image.png", width: 1200, height: 630 }],
   },
 };
 

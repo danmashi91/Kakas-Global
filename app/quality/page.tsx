@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckCircle, Shield, Microscope, FileCheck, Globe, Award, Target, ArrowRight } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Quality Assurance & Certifications | Kakas Global Limited",
+  description: "NAFDAC, SON, ISO 22000, and HACCP certified. Our 4-stage quality process ensures every shipment of Nigerian agricultural products meets international import standards.",
+};
 
 export default function QualityPage() {
   const qualityStages = [

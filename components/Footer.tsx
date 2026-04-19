@@ -1,17 +1,18 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
   const products = [
     "Cashew Nuts",
-    "Cocoa Beans",
     "Sesame Seeds",
     "Shea Butter",
     "Hibiscus Flower",
-    "Ginger",
+    "Dried Split Ginger",
     "Charcoal",
     "Palm Kernel Shell",
     "Moringa",
+    "Soybeans",
   ];
 
   const services = [
@@ -23,12 +24,10 @@ const Footer = () => {
   ];
 
   const company = [
-    "About Us",
-    "Our Team",
-    "Quality Assurance",
-    "Sustainability",
-    "Careers",
-    "Blog",
+    { name: "About Us", href: "/about" },
+    { name: "Quality Assurance", href: "/quality" },
+    { name: "Our Services", href: "/services" },
+    { name: "Contact Us", href: "/contact" },
   ];
 
   return (
@@ -37,30 +36,47 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="h-12 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-amber-500 flex items-center justify-center">
-                <span className="text-white font-bold text-xl">KG</span>
+            <div className="mb-6">
+              <div className="mb-4">
+                <Image
+                  src="/logo.svg"
+                  alt="Kakas Global Limited"
+                  width={200}
+                  height={80}
+                  className="h-20 w-auto filter brightness-0 invert"
+                />
               </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-bold">KAKAS GLOBAL</span>
-                <span className="text-sm text-gray-300 -mt-1">LIMITED</span>
-              </div>
+              <p className="text-gray-300 mb-6">
+                Leading Nigerian exporter of premium agricultural raw materials to international markets. 
+                Connecting Nigeria's farms to the world's markets since 2010.
+              </p>
             </div>
-            <p className="text-gray-300 mb-6">
-              Leading Nigerian exporter of premium agricultural raw materials to international markets. 
-              Connecting Nigeria's farms to the world's markets since 2010.
-            </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
-                Facebook
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
-                Twitter
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+              <a
+                href="https://www.linkedin.com/company/kakas-global"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors text-sm"
+                aria-label="Kakas Global on LinkedIn"
+              >
                 LinkedIn
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+              <a
+                href="https://www.facebook.com/kakasglobal"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors text-sm"
+                aria-label="Kakas Global on Facebook"
+              >
+                Facebook
+              </a>
+              <a
+                href="https://www.instagram.com/kakasglobal"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors text-sm"
+                aria-label="Kakas Global on Instagram"
+              >
                 Instagram
               </a>
             </div>
@@ -73,8 +89,8 @@ const Footer = () => {
               {products.map((product) => (
                 <li key={product}>
                   <Link
-                    href={`/products#${product.toLowerCase().replace(/\s+/g, "-")}`}
-                    className="text-gray-300 hover:text-emerald-400 transition-colors"
+                    href="/products"
+                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200"
                   >
                     {product}
                   </Link>
@@ -151,14 +167,14 @@ const Footer = () => {
               &copy; {new Date().getFullYear()} KAKAS GLOBAL LIMITED. All rights reserved.
             </div>
             <div className="flex flex-wrap gap-4 mt-4 md:mt-0">
-              <Link href="/privacy" className="text-gray-400 hover:text-white text-sm">
-                Privacy Policy
+              <Link href="/about" className="text-gray-400 hover:text-white text-sm">
+                About Us
               </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white text-sm">
-                Terms of Service
+              <Link href="/quality" className="text-gray-400 hover:text-white text-sm">
+                Quality
               </Link>
-              <Link href="/sitemap" className="text-gray-400 hover:text-white text-sm">
-                Sitemap
+              <Link href="/services" className="text-gray-400 hover:text-white text-sm">
+                Services
               </Link>
               <Link href="/contact" className="text-gray-400 hover:text-white text-sm">
                 Contact

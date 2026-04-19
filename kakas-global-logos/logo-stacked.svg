@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 260" width="240" height="260">
+  <!-- Wheat stalk icon centered and large -->
+  <g transform="translate(100, 8) scale(0.78)">
+    <line x1="35" y1="110" x2="35" y2="5" stroke="#8B6914" stroke-width="2.8" stroke-linecap="round"/>
+    <ellipse cx="35" cy="6" rx="10" ry="17" fill="#C9940A"/>
+    <ellipse cx="19" cy="28" rx="8.5" ry="14" fill="#D4A012" transform="rotate(-28,19,28)"/>
+    <ellipse cx="17" cy="53" rx="8" ry="13.5" fill="#C9940A" transform="rotate(-24,17,53)"/>
+    <ellipse cx="18" cy="76" rx="7.5" ry="12" fill="#D4A012" transform="rotate(-20,18,76)"/>
+    <ellipse cx="51" cy="28" rx="8.5" ry="14" fill="#C9940A" transform="rotate(28,51,28)"/>
+    <ellipse cx="53" cy="53" rx="8" ry="13.5" fill="#D4A012" transform="rotate(24,53,53)"/>
+    <ellipse cx="52" cy="76" rx="7.5" ry="12" fill="#C9940A" transform="rotate(20,52,76)"/>
+    <path d="M35,110 Q25,120 16,115" fill="none" stroke="#8B6914" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M35,110 Q45,120 54,115" fill="none" stroke="#8B6914" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Horizontal rule -->
+  <line x1="40" y1="110" x2="200" y2="110" stroke="#C9940A" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- KAKA'S GLOBAL -->
+  <text x="120" y="140" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700" fill="#3D2800" letter-spacing="2">KAKA'S</text>
+  <text x="120" y="168" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700" fill="#3D2800" letter-spacing="2">GLOBAL</text>
+
+  <!-- Thin rule -->
+  <line x1="60" y1="178" x2="180" y2="178" stroke="#C9940A" stroke-width="0.8"/>
+
+  <text x="120" y="196" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12.5" fill="#8B6914" letter-spacing="5">LIMITED</text>
+
+  <!-- Tagline -->
+  <text x="120" y="218" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="9" fill="#C9940A" letter-spacing="1.2" font-style="italic">Nigeria's Finest</text>
+  <text x="120" y="230" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="9" fill="#C9940A" letter-spacing="1.2" font-style="italic">Agricultural Exports</text>
+
+  <!-- Est line -->
+  <text x="120" y="248" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="9" fill="#B8860B" letter-spacing="2">EST. 2010</text>
+</svg>

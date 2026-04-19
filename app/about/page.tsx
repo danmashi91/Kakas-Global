@@ -1,13 +1,18 @@
-import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Target, Users, Globe, Award, Clock, TrendingUp } from "lucide-react";
+import { Target, Users, Globe, Award, Clock, TrendingUp, User } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "About Us | Kakas Global Limited",
+  description: "Learn about Kakas Global Limited — Nigeria's trusted agricultural exporter since 2010. Meet our leadership team and discover our mission to connect Nigerian farms with global markets.",
+};
 
 export default function AboutPage() {
   const teamMembers = [
-    { name: "Hauwa Baba Duna", role: "CEO & Founder", bio: "Visionary leader with extensive experience in agricultural trade and business development" },
-    { name: "Abdallah Baba Duna", role: "Export Operations Director", bio: "Expert in international logistics, shipping, and export documentation" },
-    { name: "Chinedu Okoro", role: "Client Relations Manager", bio: "15 years experience in international trade and customer service" },
-    { name: "Fatima Ibrahim", role: "Multilingual Trade Specialist", bio: "Fluent in English, French, and Arabic for global client communication" },
+    { name: "Hauwa Baba Duna", role: "CEO & Founder", bio: "Founded KAKAS GLOBAL in 2010 with a vision to connect Nigeria's agricultural abundance with global markets. Brings deep expertise in commodity trading and cross-border commerce." },
+    { name: "Abdallah Baba Duna", role: "Export Operations Director", bio: "Oversees the full export lifecycle — from farm sourcing through port loading to final documentation. Specialist in Nigerian export regulations and international shipping logistics." },
+    { name: "Chinedu Okoro", role: "Client Relations Manager", bio: "Dedicated point of contact for international buyers across Europe, Asia, and the Middle East. Ensures every order meets agreed specifications and timelines." },
+    { name: "Fatima Ibrahim", role: "Multilingual Trade Specialist", bio: "Manages buyer communications in English, French, and Arabic, enabling seamless trade with markets across West Africa, the EU, and the Gulf region." },
   ];
 
   const milestones = [
@@ -52,8 +57,8 @@ export default function AboutPage() {
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
               About KAKAS GLOBAL
             </h1>
-            <p className="mx-auto mt-6 max-w-3xl text-lg text-gray-600">
-              For over 15 years, we have been connecting Nigeria's rich agricultural resources 
+            <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-gray-600">
+              For over 15 years, we have been connecting Nigeria's rich agricultural resources
               with global markets, building a reputation for reliability, quality, and integrity.
             </p>
           </div>
@@ -69,9 +74,9 @@ export default function AboutPage() {
                 <Target className="h-10 w-10" />
                 <h2 className="ml-4 text-2xl font-bold">Our Mission</h2>
               </div>
-              <p className="text-lg">
-                To be the most trusted bridge between Nigeria's agricultural potential and global markets, 
-                delivering premium quality products while creating sustainable value for farmers, clients, 
+              <p className="text-lg leading-relaxed">
+                To be the most trusted bridge between Nigeria's agricultural potential and global markets,
+                delivering premium quality products while creating sustainable value for farmers, clients,
                 and communities.
               </p>
             </div>
@@ -80,8 +85,8 @@ export default function AboutPage() {
                 <Globe className="h-10 w-10" />
                 <h2 className="ml-4 text-2xl font-bold">Our Vision</h2>
               </div>
-              <p className="text-lg">
-                To transform Nigeria's agricultural export landscape through innovation, technology, 
+              <p className="text-lg leading-relaxed">
+                To transform Nigeria's agricultural export landscape through innovation, technology,
                 and ethical practices, becoming Africa's leading agricultural export company by 2030.
               </p>
             </div>
@@ -156,11 +161,13 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member) => (
               <div key={member.name} className="bg-white rounded-xl overflow-hidden shadow-lg">
-                <div className="aspect-square bg-gradient-to-br from-emerald-100 to-amber-100"></div>
+                <div className="aspect-square bg-gradient-to-br from-emerald-100 to-amber-100 flex items-center justify-center">
+                  <User className="h-16 w-16 text-emerald-300" aria-hidden="true" />
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
                   <p className="text-emerald-600 font-medium">{member.role}</p>
-                  <p className="mt-2 text-gray-600">{member.bio}</p>
+                  <p className="mt-2 text-gray-600 leading-relaxed">{member.bio}</p>
                 </div>
               </div>
             ))}

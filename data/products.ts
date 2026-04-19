@@ -46,31 +46,15 @@ export const products: Product[] = [
     },
     priceRange: "$1,200 - $1,800/MT",
     leadTime: "2-4 weeks",
-    origin: "Kano, Kaduna, Ogun States"
+    origin: "Kano, Kaduna, Ogun States",
+    images: [
+      "https://media.globy.com/public/market/680b19d776146e0057abcd44/photos/680b19d776146e0057abcd54/680b19d776146e0057abcd54_md.webp",
+      "https://media.globy.com/public/market/680b19d776146e0057abcd44/photos/680b19d776146e0057abcd5a/680b19d776146e0057abcd5a_md.webp",
+      "https://media.globy.com/public/market/6984e9a6a6c2ce665bb5d773/photos/6984e9a7a6c2ce665bb5d7f4/6984e9a7a6c2ce665bb5d7f4_md.webp"
+    ]
   },
   {
     id: 2,
-    name: "Cocoa Beans",
-    category: "beans",
-    description: "Fermented and dried cocoa beans with excellent flavor profiles for chocolate production.",
-    forms: ["Fermented", "Unfermented", "Cocoa Powder", "Cocoa Butter"],
-    packaging: ["60kg jute bags", "Big bags", "Custom packaging"],
-    moq: "10 MT",
-    season: "Main: Oct-Mar, Mid: May-Aug",
-    certifications: ["UTZ", "Rainforest", "Organic", "EU Compliant"],
-    specifications: {
-      moistureContent: "≤ 7%",
-      purity: "≥ 99.5%",
-      size: "Medium to large beans",
-      color: "Brown",
-      shelfLife: "24 months"
-    },
-    priceRange: "$2,500 - $3,500/MT",
-    leadTime: "3-5 weeks",
-    origin: "Ondo, Cross River, Ogun States"
-  },
-  {
-    id: 3,
     name: "Sesame Seeds",
     category: "seeds",
     description: "High-oil content sesame seeds, hulled and natural, perfect for oil extraction and food processing.",
@@ -88,10 +72,15 @@ export const products: Product[] = [
     },
     priceRange: "$1,500 - $2,200/MT",
     leadTime: "2-4 weeks",
-    origin: "Nasarawa, Benue, Jigawa States"
+    origin: "Nasarawa, Benue, Jigawa States",
+    images: [
+      "https://media.globy.com/public/market/68e4fd9c76a9730026281b82/photos/68e4fd9c76a9730026281ba9/68e4fd9c76a9730026281ba9_md.webp",
+      "https://media.globy.com/public/market/695cd116270e10bb422d89f0/photos/695f615aba7ab4dda806e0db/695f615aba7ab4dda806e0db_md.webp",
+      "https://media.globy.com/public/market/685da1c25d69290026de5a72/photos/685da1c25d69290026de5a7f/685da1c25d69290026de5a7f_md.webp"
+    ]
   },
   {
-    id: 4,
+    id: 3,
     name: "Shea Butter",
     category: "oils",
     description: "Unrefined shea butter with high vitamin content, ideal for cosmetics and food industries.",
@@ -108,10 +97,16 @@ export const products: Product[] = [
     },
     priceRange: "$3,000 - $5,000/MT",
     leadTime: "3-6 weeks",
-    origin: "Kwara, Niger, Kebbi States"
+    origin: "Kwara, Niger, Kebbi States",
+    images: [
+      "https://media.globy.com/public/market/68c417e5c8e97900262b7dc9/photos/68c417e6c8e97900262b7e2a/68c417e6c8e97900262b7e2a_md.webp",
+      "https://media.globy.com/public/market/68769c664bc8130026a26373/photos/687a649a833033002674f66e/687a649a833033002674f66e_md.webp",
+      "https://media.globy.com/public/market/68c417e5c8e97900262b7dc9/photos/68c417e6c8e97900262b7de0/68c417e6c8e97900262b7de0_md.webp",
+      "https://media.globy.com/public/market/68c417e5c8e97900262b7dc9/photos/68c417e5c8e97900262b7dce/68c417e5c8e97900262b7dce_md.webp"
+    ]
   },
   {
-    id: 5,
+    id: 4,
     name: "Hibiscus Flower (Zobo)",
     category: "herbs",
     description: "Dried hibiscus flowers for herbal tea, beverages, and natural food coloring.",
@@ -128,30 +123,16 @@ export const products: Product[] = [
     },
     priceRange: "$800 - $1,200/MT",
     leadTime: "2-4 weeks",
-    origin: "Kano, Katsina, Jigawa States"
+    origin: "Kano, Katsina, Jigawa States",
+    images: [
+      "https://files.selar.co/product-images/2023/products/ullrichfoods/hibiscus-flower-zobo-leav-selar.co-64533a3889b1c.jpg",
+      "https://media.globy.com/public/market/673db3a07914cabeeda056bc/photos/673db3a07914cabeeda056c4/673db3a07914cabeeda056c4_md.webp",
+      "https://media.globy.com/public/market/673db3a07914cabeeda056bc/photos/673db3a07914cabeeda056cc/673db3a07914cabeeda056cc_md.webp",
+      "https://media.globy.com/public/market/673db3a07914cabeeda056bc/photos/673db3a17914cabeeda056d0/673db3a17914cabeeda056d0_md.webp"
+    ]
   },
   {
-    id: 6,
-    name: "Ginger",
-    category: "spices",
-    description: "Fresh and dried ginger with high gingerol content, suitable for food and pharmaceutical use.",
-    forms: ["Fresh", "Dried", "Powder", "Oil"],
-    packaging: ["15kg mesh bags", "25kg bags", "Custom packaging"],
-    moq: "10 MT",
-    season: "Year-round",
-    certifications: ["NAFDAC", "SON", "EU Compliant", "FDA"],
-    specifications: {
-      moistureContent: "≤ 12% (dried)",
-      purity: "≥ 99%",
-      gingerolContent: "≥ 2%",
-      shelfLife: "18 months"
-    },
-    priceRange: "$600 - $1,000/MT",
-    leadTime: "2-4 weeks",
-    origin: "Kaduna, Nasarawa, Benue States"
-  },
-  {
-    id: 7,
+    id: 5,
     name: "Charcoal (Hardwood)",
     category: "other",
     description: "Premium hardwood charcoal with high calorific value and long burning time.",
@@ -168,10 +149,15 @@ export const products: Product[] = [
     },
     priceRange: "$300 - $500/MT",
     leadTime: "1-3 weeks",
-    origin: "Oyo, Osun, Ekiti States"
+    origin: "Oyo, Osun, Ekiti States",
+    images: [
+      "https://media.globy.com/public/market/689f236ae897b100265ee176/photos/689f236ae897b100265ee17f/689f236ae897b100265ee17f_md.webp",
+      "https://media.globy.com/public/market/689f236ae897b100265ee176/photos/689f236ae897b100265ee183/689f236ae897b100265ee183_md.webp",
+      "https://media.globy.com/public/market/689f236ae897b100265ee176/photos/689f236ae897b100265ee185/689f236ae897b100265ee185_md.webp"
+    ]
   },
   {
-    id: 8,
+    id: 6,
     name: "Palm Kernel Shell",
     category: "other",
     description: "Biomass fuel with high calorific value, ideal for power generation and industrial heating.",
@@ -188,10 +174,14 @@ export const products: Product[] = [
     },
     priceRange: "$150 - $250/MT",
     leadTime: "1-2 weeks",
-    origin: "Delta, Edo, Rivers States"
+    origin: "Delta, Edo, Rivers States",
+    images: [
+      "https://media.globy.com/public/market/67d5662120cc1b033380fb3b/photos/67d5662120cc1b033380fb51/67d5662120cc1b033380fb51_md.webp",
+      "https://media.globy.com/public/market/69c830ca20c22d002628c525/photos/69c830ca20c22d002628c531/69c830ca20c22d002628c531_md.webp"
+    ]
   },
   {
-    id: 9,
+    id: 7,
     name: "Moringa",
     category: "herbs",
     description: "Moringa leaves and powder with high nutritional value for food supplements and cosmetics.",
@@ -208,10 +198,14 @@ export const products: Product[] = [
     },
     priceRange: "$2,000 - $3,500/MT",
     leadTime: "2-4 weeks",
-    origin: "Kano, Kaduna, Plateau States"
+    origin: "Kano, Kaduna, Plateau States",
+    images: [
+      "https://media.globy.com/public/market/68a6fa065e14190e576b07c5/photos/68a6fa065e14190e576b07cc/68a6fa065e14190e576b07cc_md.webp",
+      "https://media.globy.com/public/market/6863f420a5de14025da77850/photos/6863f420a5de14025da7785a/6863f420a5de14025da7785a_md.webp"
+    ]
   },
   {
-    id: 10,
+    id: 8,
     name: "Dried Split Ginger",
     category: "spices",
     description: "Sun-dried split ginger pieces with concentrated flavor for spice blends and extracts.",
@@ -228,30 +222,14 @@ export const products: Product[] = [
     },
     priceRange: "$800 - $1,200/MT",
     leadTime: "2-4 weeks",
-    origin: "Kaduna, Nasarawa, Benue States"
+    origin: "Kaduna, Nasarawa, Benue States",
+    images: [
+      "https://media.globy.com/public/market/67d9cf7e0dd7e201b6322562/photos/67d9cf7e0dd7e201b6322568/67d9cf7e0dd7e201b6322568_md.webp",
+      "https://media.globy.com/public/market/6852c71f880cec00f9b8c2b5/photos/6852c71f880cec00f9b8c2be/6852c71f880cec00f9b8c2be_md.webp"
+    ]
   },
   {
-    id: 11,
-    name: "Palm Oil",
-    category: "oils",
-    description: "Crude and refined palm oil for food processing and industrial applications.",
-    forms: ["Crude Palm Oil", "Refined Palm Oil", "Palm Olein", "Palm Stearin"],
-    packaging: ["180kg drums", "Flexitanks", "Bulk vessels"],
-    moq: "20 MT",
-    season: "Year-round",
-    certifications: ["RSPO", "MPOB", "NAFDAC", "EU Compliant"],
-    specifications: {
-      ffaContent: "≤ 5% (crude)",
-      moistureContent: "≤ 0.1%",
-      color: "Red to orange",
-      shelfLife: "12 months"
-    },
-    priceRange: "$800 - $1,200/MT",
-    leadTime: "3-5 weeks",
-    origin: "Delta, Edo, Cross River States"
-  },
-  {
-    id: 12,
+    id: 9,
     name: "Soybeans",
     category: "beans",
     description: "Non-GMO soybeans with high protein content for animal feed and food processing.",
@@ -268,7 +246,12 @@ export const products: Product[] = [
     },
     priceRange: "$400 - $600/MT",
     leadTime: "2-4 weeks",
-    origin: "Benue, Plateau, Taraba States"
+    origin: "Benue, Plateau, Taraba States",
+    images: [
+      "https://media.globy.com/public/market/68502d64a31bc4096dc2a868/photos/68502d64a31bc4096dc2a86e/68502d64a31bc4096dc2a86e_md.webp",
+      "https://media.globy.com/public/market/68502d64a31bc4096dc2a868/photos/68502d64a31bc4096dc2a870/68502d64a31bc4096dc2a870_md.webp",
+      "https://media.globy.com/public/market/67b3d9fb6aea370118346c6a/photos/67b45e4aaa38d60169fde434/67b45e4aaa38d60169fde434_md.webp"
+    ]
   }
 ];
 

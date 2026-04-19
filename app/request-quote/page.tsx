@@ -2,26 +2,35 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FileText, Package, Globe, Upload, ArrowRight, CheckCircle, Truck, DollarSign } from "lucide-react";
+import { FileText, Package, Globe, Upload, ArrowRight, CheckCircle, Truck, DollarSign, Send } from "lucide-react";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const emptyQuoteForm = {
+  product: "",
+  quantity: "",
+  unit: "MT",
+  incoterm: "FOB",
+  destination: "",
+  specifications: "",
+  name: "",
+  email: "",
+  company: "",
+  country: "",
+};
 
 export default function RequestQuotePage() {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    product: "",
-    quantity: "",
-    unit: "MT",
-    incoterm: "FOB",
-    destination: "",
-    specifications: "",
-    name: "",
-    email: "",
-    company: "",
-    country: "",
-  });
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [formData, setFormData] = useState(emptyQuoteForm);
+  const [step4Errors, setStep4Errors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (step4Errors[name]) {
+      setStep4Errors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const nextStep = () => {
@@ -32,23 +41,26 @@ export default function RequestQuotePage() {
     if (step > 1) setStep(step - 1);
   };
 
+  const validateStep4 = () => {
+    const errs: Record<string, string> = {};
+    if (formData.name.trim().length < 2) errs.name = "Full name must be at least 2 characters.";
+    if (!EMAIL_RE.test(formData.email.trim())) errs.email = "Please enter a valid email address.";
+    if (!formData.country.trim()) errs.country = "Country is required.";
+    return errs;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would submit to an API
-    alert("Quote request submitted! Our team will contact you within 24 hours.");
+    const errs = validateStep4();
+    if (Object.keys(errs).length > 0) {
+      setStep4Errors(errs);
+      return;
+    }
+    setSubmitSuccess(true);
     setStep(1);
-    setFormData({
-      product: "",
-      quantity: "",
-      unit: "MT",
-      incoterm: "FOB",
-      destination: "",
-      specifications: "",
-      name: "",
-      email: "",
-      company: "",
-      country: "",
-    });
+    setFormData(emptyQuoteForm);
+    setStep4Errors({});
+    setTimeout(() => setSubmitSuccess(false), 8000);
   };
 
   const products = [
@@ -124,6 +136,23 @@ export default function RequestQuotePage() {
       {/* Form Section */}
       <section className="bg-white py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          {submitSuccess && (
+            <div className="mb-8 p-6 bg-emerald-50 border border-emerald-200 rounded-xl" role="alert">
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                  <Send className="h-5 w-5 text-emerald-600" aria-hidden="true" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-emerald-800">Quote Request Received!</h3>
+                  <p className="mt-1 text-sm text-emerald-700">
+                    Thank you. Our export team will review your request and respond with a detailed quotation within 24 hours.
+                    For urgent inquiries, call us at{" "}
+                    <a href="tel:+2347040581036" className="font-medium underline">+234 704 058 1036</a>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Step 1: Product Details */}
             {step === 1 && (
@@ -337,59 +366,70 @@ export default function RequestQuotePage() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name *
+                    <label htmlFor="q-name" className="block text-sm font-medium text-gray-700 mb-2">
+                      Full Name <span className="text-red-500" aria-hidden="true">*</span>
                     </label>
                     <input
                       type="text"
+                      id="q-name"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      autoComplete="name"
+                      aria-invalid={!!step4Errors.name}
+                      className={`w-full px-4 py-3 border rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${step4Errors.name ? "border-red-400 bg-red-50" : "border-gray-300"}`}
                       placeholder="John Smith"
                     />
+                    {step4Errors.name && <p className="mt-1.5 text-sm text-red-600" role="alert">{step4Errors.name}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
+                    <label htmlFor="q-email" className="block text-sm font-medium text-gray-700 mb-2">
+                      Email Address <span className="text-red-500" aria-hidden="true">*</span>
                     </label>
                     <input
                       type="email"
+                      id="q-email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      autoComplete="email"
+                      aria-invalid={!!step4Errors.email}
+                      className={`w-full px-4 py-3 border rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${step4Errors.email ? "border-red-400 bg-red-50" : "border-gray-300"}`}
                       placeholder="john@company.com"
                     />
+                    {step4Errors.email && <p className="mt-1.5 text-sm text-red-600" role="alert">{step4Errors.email}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="q-company" className="block text-sm font-medium text-gray-700 mb-2">
                       Company Name
                     </label>
                     <input
                       type="text"
+                      id="q-company"
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      autoComplete="organization"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                       placeholder="Your Company Ltd."
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Country *
+                    <label htmlFor="q-country" className="block text-sm font-medium text-gray-700 mb-2">
+                      Country <span className="text-red-500" aria-hidden="true">*</span>
                     </label>
                     <input
                       type="text"
+                      id="q-country"
                       name="country"
                       value={formData.country}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      autoComplete="country-name"
+                      aria-invalid={!!step4Errors.country}
+                      className={`w-full px-4 py-3 border rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${step4Errors.country ? "border-red-400 bg-red-50" : "border-gray-300"}`}
                       placeholder="e.g., United States"
                     />
+                    {step4Errors.country && <p className="mt-1.5 text-sm text-red-600" role="alert">{step4Errors.country}</p>}
                   </div>
                 </div>
                 

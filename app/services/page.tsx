@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Search, CheckCircle, Truck, Package, FileText, Globe, Shield, Users, ArrowRight } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Export Services | Kakas Global Limited",
+  description: "End-to-end agricultural export services: sourcing, quality control, logistics, custom packaging, documentation, and market intelligence. FOB, CIF, CFR, and EXW terms available.",
+};
 
 export default function ServicesPage() {
   const services = [
@@ -115,8 +121,8 @@ export default function ServicesPage() {
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
               Comprehensive Export Services
             </h1>
-            <p className="mx-auto mt-6 max-w-3xl text-lg text-gray-600">
-              From sourcing to delivery, we provide end-to-end export solutions that ensure quality, 
+            <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-gray-600">
+              From sourcing to delivery, we provide end-to-end export solutions that ensure quality,
               compliance, and reliability for international buyers of Nigerian agricultural products.
             </p>
           </div>
@@ -133,7 +139,7 @@ export default function ServicesPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
-              <div key={index} className="group relative bg-white rounded-2xl border border-gray-200 p-6 hover:border-emerald-300 hover:shadow-xl transition-all">
+              <div key={index} className="group relative bg-white rounded-2xl border border-gray-200 p-6 hover:border-emerald-300 hover:shadow-xl transition-all duration-200">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-emerald-100 to-amber-100 text-emerald-600 mb-4">
                   {service.icon}
                 </div>
@@ -211,7 +217,7 @@ export default function ServicesPage() {
                   <Globe className="h-6 w-6 text-emerald-600" />
                   <h3 className="ml-3 text-xl font-bold text-gray-900">{incoterm.term}</h3>
                 </div>
-                <p className="text-gray-700 mb-4">{incoterm.description}</p>
+                <p className="text-gray-700 leading-relaxed mb-4">{incoterm.description}</p>
                 <div className="flex items-start">
                   <Shield className="h-5 w-5 text-amber-600 mt-0.5 mr-2 flex-shrink-0" />
                   <div>

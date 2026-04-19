@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, X, Mail } from "lucide-react";
 import { useState } from "react";
 
 const WhatsAppWidget = () => {
@@ -11,8 +11,7 @@ const WhatsAppWidget = () => {
 
   const handleWhatsAppClick = () => {
     const encodedMessage = encodeURIComponent(defaultMessage);
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-    window.open(whatsappUrl, "_blank");
+    window.open(`https://wa.me/${phoneNumber.replace(/\D/g, "")}?text=${encodedMessage}`, "_blank");
   };
 
   const handleEmailClick = () => {
@@ -21,61 +20,52 @@ const WhatsAppWidget = () => {
 
   return (
     <>
-      {/* WhatsApp Floating Button */}
-      <button
-        onClick={handleWhatsAppClick}
-        className="fixed bottom-6 right-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
-        aria-label="Chat with us on WhatsApp"
-      >
-        <MessageCircle className="h-7 w-7" />
-        <span className="absolute -top-10 right-0 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-          Chat on WhatsApp
-        </span>
-      </button>
-
-      {/* Quick Contact Panel */}
+      {/* Quick Contact Panel — renders above the toggle button */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-40 w-64 bg-white rounded-lg shadow-xl border border-gray-200 p-4">
+        <div
+          role="dialog"
+          aria-label="Quick contact options"
+          className="fixed bottom-24 right-6 z-40 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 p-4"
+        >
           <div className="flex justify-between items-center mb-3">
-            <h3 className="font-semibold text-gray-900">Quick Contact</h3>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-gray-400 hover:text-gray-600"
-            >
-              ✕
-            </button>
+            <h3 className="font-semibold text-gray-900 text-sm">Contact Our Export Team</h3>
           </div>
-          <p className="text-sm text-gray-600 mb-4">
-            Get instant responses via WhatsApp or email us for detailed inquiries.
+          <p className="text-xs text-gray-500 mb-4">
+            Preferred by international buyers — get a response within hours.
           </p>
           <div className="space-y-2">
             <button
               onClick={handleWhatsAppClick}
-              className="w-full flex items-center justify-center space-x-2 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition-colors"
+              className="w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-2.5 px-4 rounded-lg transition-colors text-sm font-medium"
+              aria-label="Open WhatsApp chat with Kakas Global"
             >
-              <MessageCircle className="h-4 w-4" />
-              <span>WhatsApp Chat</span>
+              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+              Chat on WhatsApp
             </button>
             <button
               onClick={handleEmailClick}
-              className="w-full flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-lg transition-colors"
+              className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 px-4 rounded-lg transition-colors text-sm font-medium"
+              aria-label="Send email to Kakas Global"
             >
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              <span>Send Email</span>
+              <Mail className="h-4 w-4" aria-hidden="true" />
+              Send Email
             </button>
           </div>
         </div>
       )}
 
-      {/* Toggle Button for Contact Panel */}
+      {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-24 right-6 z-40 flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 text-white shadow-lg hover:shadow-xl hover:bg-gray-900 transition-all"
-        aria-label="Toggle contact options"
+        className="fixed bottom-6 right-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+        aria-label={isOpen ? "Close contact panel" : "Open WhatsApp contact options"}
+        aria-expanded={isOpen}
       >
-        {isOpen ? "−" : "+"}
+        {isOpen ? (
+          <X className="h-6 w-6" aria-hidden="true" />
+        ) : (
+          <MessageCircle className="h-7 w-7" aria-hidden="true" />
+        )}
       </button>
     </>
   );

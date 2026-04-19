@@ -4,44 +4,78 @@ import { useState } from "react";
 import Link from "next/link";
 import { Mail, Phone, MapPin, Clock, MessageSquare, Send, Globe, Building, ArrowRight } from "lucide-react";
 
-export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    country: "",
-    product: "",
-    message: "",
-  });
+type FormData = {
+  name: string;
+  email: string;
+  company: string;
+  country: string;
+  product: string;
+  message: string;
+};
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validateField(name: keyof FormData, value: string): string {
+  switch (name) {
+    case "name":
+      return value.trim().length < 2 ? "Full name must be at least 2 characters." : "";
+    case "email":
+      return !EMAIL_RE.test(value.trim()) ? "Please enter a valid email address." : "";
+    case "country":
+      return !value ? "Please select your country." : "";
+    case "product":
+      return !value ? "Please select a product of interest." : "";
+    case "message":
+      return value.trim().length < 20 ? "Message must be at least 20 characters." : "";
+    default:
+      return "";
+  }
+}
+
+export default function ContactPage() {
+  const emptyForm: FormData = { name: "", email: "", company: "", country: "", product: "", message: "" };
+
+  const [formData, setFormData] = useState<FormData>(emptyForm);
+  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof FormData, boolean>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (touched[name as keyof FormData]) {
+      setErrors((prev) => ({ ...prev, [name]: validateField(name as keyof FormData, value) }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prev) => ({ ...prev, [name]: validateField(name as keyof FormData, value) }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const requiredFields: (keyof FormData)[] = ["name", "email", "country", "product", "message"];
+    const newErrors: Partial<Record<keyof FormData, string>> = {};
+    let hasError = false;
+    for (const field of requiredFields) {
+      const err = validateField(field, formData[field]);
+      if (err) { newErrors[field] = err; hasError = true; }
+    }
+    setErrors(newErrors);
+    setTouched(Object.fromEntries(requiredFields.map((f) => [f, true])));
+    if (hasError) return;
+
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSubmitting(false);
     setSubmitSuccess(true);
-    setFormData({
-      name: "",
-      email: "",
-      company: "",
-      country: "",
-      product: "",
-      message: "",
-    });
-    
-    // Reset success message after 5 seconds
-    setTimeout(() => setSubmitSuccess(false), 5000);
+    setFormData(emptyForm);
+    setErrors({});
+    setTouched({});
+    setTimeout(() => setSubmitSuccess(false), 8000);
   };
 
   const products = [
@@ -150,11 +184,11 @@ export default function ContactPage() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name *
+                      Full Name <span className="text-red-500" aria-hidden="true">*</span>
                     </label>
                     <input
                       type="text"
@@ -162,14 +196,20 @@ export default function ContactPage() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      onBlur={handleBlur}
+                      autoComplete="name"
+                      aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? "name-error" : undefined}
+                      className={`w-full px-4 py-3 border rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${errors.name ? "border-red-400 bg-red-50" : "border-gray-300"}`}
                       placeholder="John Smith"
                     />
+                    {errors.name && (
+                      <p id="name-error" className="mt-1.5 text-sm text-red-600" role="alert">{errors.name}</p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
+                      Email Address <span className="text-red-500" aria-hidden="true">*</span>
                     </label>
                     <input
                       type="email"
@@ -177,10 +217,16 @@ export default function ContactPage() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      onBlur={handleBlur}
+                      autoComplete="email"
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? "email-error" : undefined}
+                      className={`w-full px-4 py-3 border rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${errors.email ? "border-red-400 bg-red-50" : "border-gray-300"}`}
                       placeholder="john@company.com"
                     />
+                    {errors.email && (
+                      <p id="email-error" className="mt-1.5 text-sm text-red-600" role="alert">{errors.email}</p>
+                    )}
                   </div>
                 </div>
 
@@ -195,89 +241,106 @@ export default function ContactPage() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      onBlur={handleBlur}
+                      autoComplete="organization"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                       placeholder="Your Company Ltd."
                     />
                   </div>
                   <div>
                     <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
-                      Country *
+                      Country <span className="text-red-500" aria-hidden="true">*</span>
                     </label>
                     <select
                       id="country"
                       name="country"
                       value={formData.country}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      onBlur={handleBlur}
+                      aria-invalid={!!errors.country}
+                      aria-describedby={errors.country ? "country-error" : undefined}
+                      className={`w-full px-4 py-3 border rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${errors.country ? "border-red-400 bg-red-50" : "border-gray-300"}`}
                     >
                       <option value="">Select your country</option>
                       {countries.map((country) => (
-                        <option key={country} value={country}>
-                          {country}
-                        </option>
+                        <option key={country} value={country}>{country}</option>
                       ))}
                     </select>
+                    {errors.country && (
+                      <p id="country-error" className="mt-1.5 text-sm text-red-600" role="alert">{errors.country}</p>
+                    )}
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="product" className="block text-sm font-medium text-gray-700 mb-2">
-                    Product of Interest *
+                    Product of Interest <span className="text-red-500" aria-hidden="true">*</span>
                   </label>
                   <select
                     id="product"
                     name="product"
                     value={formData.product}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    onBlur={handleBlur}
+                    aria-invalid={!!errors.product}
+                    aria-describedby={errors.product ? "product-error" : undefined}
+                    className={`w-full px-4 py-3 border rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${errors.product ? "border-red-400 bg-red-50" : "border-gray-300"}`}
                   >
                     <option value="">Select a product</option>
                     {products.map((product) => (
-                      <option key={product} value={product}>
-                        {product}
-                      </option>
+                      <option key={product} value={product}>{product}</option>
                     ))}
                   </select>
+                  {errors.product && (
+                    <p id="product-error" className="mt-1.5 text-sm text-red-600" role="alert">{errors.product}</p>
+                  )}
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message *
+                    Message <span className="text-red-500" aria-hidden="true">*</span>
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    required
-                    rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    onBlur={handleBlur}
+                    rows={5}
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? "message-error" : "message-hint"}
+                    className={`w-full px-4 py-3 border rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${errors.message ? "border-red-400 bg-red-50" : "border-gray-300"}`}
                     placeholder="Tell us about your requirements, quantity needed, timeline, and any specific quality standards..."
                   />
+                  {errors.message ? (
+                    <p id="message-error" className="mt-1.5 text-sm text-red-600" role="alert">{errors.message}</p>
+                  ) : (
+                    <p id="message-hint" className="mt-1.5 text-xs text-gray-400">
+                      {formData.message.trim().length}/20 characters minimum
+                    </p>
+                  )}
                 </div>
 
                 <div>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-600 to-amber-600 px-8 py-3 text-base font-medium text-white shadow-lg hover:from-emerald-700 hover:to-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="w-full inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-600 to-amber-600 px-8 py-3 text-base font-medium text-white shadow-lg hover:from-emerald-700 hover:to-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                   >
                     {isSubmitting ? (
                       <>
-                        <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                        <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" aria-hidden="true" />
                         Sending...
                       </>
                     ) : (
                       <>
                         Send Message
-                        <Send className="ml-2 h-5 w-5" />
+                        <Send className="ml-2 h-5 w-5" aria-hidden="true" />
                       </>
                     )}
                   </button>
                   <p className="mt-3 text-sm text-gray-500">
-                    By submitting this form, you agree to our Privacy Policy and consent to being contacted by our export team.
+                    By submitting this form, you consent to being contacted by our export team regarding your inquiry.
                   </p>
                 </div>
               </form>
@@ -331,21 +394,41 @@ export default function ContactPage() {
                 </a>
               </div>
 
-              {/* Map Placeholder */}
-              <div className="bg-gray-100 rounded-xl p-6">
+              {/* Office Location */}
+              <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
                 <div className="flex items-center mb-4">
-                  <Globe className="h-8 w-8 text-emerald-600" />
+                  <Globe className="h-8 w-8 text-emerald-600" aria-hidden="true" />
                   <div className="ml-4">
                     <h3 className="text-xl font-bold text-gray-900">Our Location</h3>
-                    <p className="text-gray-600">Kano, Nigeria - Northern Nigeria's commercial hub</p>
+                    <p className="text-gray-600">Northern Nigeria's leading commercial hub</p>
                   </div>
                 </div>
-                <div className="aspect-[16/9] bg-gradient-to-br from-emerald-100 to-amber-100 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <Building className="h-12 w-12 text-emerald-600 mx-auto mb-4" />
-                    <p className="text-gray-700 font-medium">Nasarawa GRA, Kano</p>
-                    <p className="text-gray-600">Google Maps integration available</p>
+                <div className="bg-white rounded-lg p-5 border border-gray-100">
+                  <div className="flex items-start gap-3 mb-3">
+                    <Building className="h-5 w-5 text-emerald-600 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                    <div>
+                      <p className="font-semibold text-gray-900">KAKAS GLOBAL LIMITED</p>
+                      <p className="text-gray-600">44 Ahmadu Bello Way</p>
+                      <p className="text-gray-600">Nasarawa GRA, Kano</p>
+                      <p className="text-gray-600">Nigeria</p>
+                    </div>
                   </div>
+                  <div className="mt-4 pt-4 border-t border-gray-100 space-y-2">
+                    <p className="text-sm text-gray-600">
+                      <span className="font-medium">Port of export:</span> Apapa Port, Lagos
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      <span className="font-medium">Nearest international airport:</span> Mallam Aminu Kano International Airport (KAN)
+                    </p>
+                  </div>
+                  <a
+                    href="https://maps.google.com/?q=44+Ahmadu+Bello+Way+Nasarawa+GRA+Kano+Nigeria"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center text-emerald-600 hover:text-emerald-700 text-sm font-medium"
+                  >
+                    View on Google Maps →
+                  </a>
                 </div>
               </div>
             </div>

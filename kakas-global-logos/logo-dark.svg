@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="520" height="120">
+  <!-- Background for preview -->
+  <rect width="520" height="120" fill="#1A1200"/>
+
+  <!-- Wheat stalk icon -->
+  <g transform="translate(30, 10)">
+    <line x1="35" y1="100" x2="35" y2="5" stroke="#D4A012" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="35" cy="6" rx="9" ry="15" fill="#F0C040"/>
+    <ellipse cx="21" cy="26" rx="7.5" ry="13" fill="#E8B820" transform="rotate(-28,21,26)"/>
+    <ellipse cx="19" cy="48" rx="7" ry="12" fill="#F0C040" transform="rotate(-24,19,48)"/>
+    <ellipse cx="20" cy="68" rx="6.5" ry="11" fill="#E8B820" transform="rotate(-20,20,68)"/>
+    <ellipse cx="49" cy="26" rx="7.5" ry="13" fill="#F0C040" transform="rotate(28,49,26)"/>
+    <ellipse cx="51" cy="48" rx="7" ry="12" fill="#E8B820" transform="rotate(24,51,48)"/>
+    <ellipse cx="50" cy="68" rx="6.5" ry="11" fill="#F0C040" transform="rotate(20,50,68)"/>
+    <path d="M35,100 Q28,108 22,104" fill="none" stroke="#D4A012" stroke-width="2" stroke-linecap="round"/>
+    <path d="M35,100 Q42,108 48,104" fill="none" stroke="#D4A012" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <line x1="108" y1="18" x2="108" y2="102" stroke="#D4A012" stroke-width="1.2" opacity="0.6"/>
+
+  <text x="124" y="55" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-weight="700" fill="#FFF8E0" letter-spacing="1">KAKA'S</text>
+  <text x="124" y="88" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-weight="700" fill="#FFF8E0" letter-spacing="1">GLOBAL</text>
+  <text x="126" y="108" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#D4A012" letter-spacing="7">LIMITED</text>
+  <text x="126" y="118" font-family="Georgia, 'Times New Roman', serif" font-size="9.5" fill="#E8B820" letter-spacing="1.5" font-style="italic">Nigeria's Finest Agricultural Exports</text>
+</svg>

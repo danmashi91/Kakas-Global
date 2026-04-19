@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, Globe } from "lucide-react";
 
 const Navbar = () => {
@@ -25,19 +26,20 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/90 backdrop-blur-lg">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="h-10 w-10 rounded-full bg-gradient-to-r from-emerald-600 to-amber-600 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">KG</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-gray-900">KAKAS GLOBAL</span>
-                <span className="text-xs text-gray-500 -mt-1">LIMITED</span>
-              </div>
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/logo.svg"
+                alt="Kakas Global Limited"
+                width={160}
+                height={64}
+                className="h-16 w-auto"
+                priority
+              />
             </Link>
           </div>
 
@@ -59,8 +61,12 @@ const Navbar = () => {
 
             {/* Language Selector */}
             <div className="relative group">
-              <button className="flex items-center space-x-1 text-sm font-medium text-gray-700 hover:text-emerald-700">
-                <Globe className="h-4 w-4" />
+              <button
+                className="flex items-center space-x-1 text-sm font-medium text-gray-700 hover:text-emerald-700"
+                aria-label="Select language"
+                aria-haspopup="listbox"
+              >
+                <Globe className="h-4 w-4" aria-hidden="true" />
                 <span>{language}</span>
               </button>
               <div className="absolute right-0 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
@@ -87,14 +93,17 @@ const Navbar = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="rounded-md p-2 text-gray-700 hover:bg-gray-100 md:hidden"
+            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-nav"
           >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isOpen ? <X className="h-6 w-6" aria-hidden="true" /> : <Menu className="h-6 w-6" aria-hidden="true" />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden border-t border-gray-100 py-4">
+          <div id="mobile-nav" className="md:hidden border-t border-gray-100 py-4">
             <div className="space-y-3">
               {navItems.map((item) => (
                 <Link
