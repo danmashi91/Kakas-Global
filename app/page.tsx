@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, CheckCircle, Globe, Truck, Shield, Package, ChevronLeft, ChevronRight } from "lucide-react";
@@ -8,58 +8,36 @@ import { products as allProducts } from "@/data/products";
 
 function AutoSlideshow({ images }: { images: string[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [transitionType, setTransitionType] = useState<'fade' | 'slide-left' | 'slide-right' | 'zoom'>('fade');
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  // Array of transition types to cycle through
-  const transitionTypes: Array<'fade' | 'slide-left' | 'slide-right' | 'zoom'> = [
-    'fade', 'slide-left', 'slide-right', 'zoom'
-  ];
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (images.length <= 1) return;
 
-    const interval = setInterval(() => {
-      setIsTransitioning(true);
-      
-      // Set random transition type for next slide
-      const nextTransition = transitionTypes[Math.floor(Math.random() * transitionTypes.length)];
-      setTransitionType(nextTransition);
-      
-      setTimeout(() => {
+    // First slide holds 8s, then all subsequent slides at 5s via setInterval
+    timerRef.current = setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+      timerRef.current = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % images.length);
-        setIsTransitioning(false);
-      }, 1000); // Slower transition duration (1 second)
-    }, 7000); // Much slower slideshow timeout (7 seconds)
+      }, 5000);
+    }, 8000);
 
-    return () => clearInterval(interval);
+    return () => {
+      if (timerRef.current !== null) {
+        clearTimeout(timerRef.current);
+        clearInterval(timerRef.current);
+      }
+    };
   }, [images.length]);
 
   const goToSlide = (index: number) => {
-    setIsTransitioning(true);
-    const nextTransition = transitionTypes[Math.floor(Math.random() * transitionTypes.length)];
-    setTransitionType(nextTransition);
-    
-    setTimeout(() => {
-      setCurrentIndex(index);
-      setIsTransitioning(false);
-    }, 800);
-  };
-
-  // Get transition classes based on transition type
-  const getTransitionClasses = () => {
-    switch (transitionType) {
-      case 'fade':
-        return `transition-opacity duration-1000 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`;
-      case 'slide-left':
-        return `transition-transform duration-1000 ${isTransitioning ? '-translate-x-full' : 'translate-x-0'}`;
-      case 'slide-right':
-        return `transition-transform duration-1000 ${isTransitioning ? 'translate-x-full' : 'translate-x-0'}`;
-      case 'zoom':
-        return `transition-all duration-1000 ${isTransitioning ? 'scale-110 opacity-0' : 'scale-100 opacity-100'}`;
-      default:
-        return `transition-opacity duration-1000 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`;
+    if (timerRef.current !== null) {
+      clearTimeout(timerRef.current);
+      clearInterval(timerRef.current);
     }
+    setCurrentIndex(index);
+    timerRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 5000);
   };
 
   if (images.length === 0) {
@@ -76,36 +54,45 @@ function AutoSlideshow({ images }: { images: string[] }) {
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* Current Image with Dynamic Transition */}
-      <div className={`absolute inset-0 ${getTransitionClasses()}`}>
-        <Image
-          src={images[currentIndex]}
-          alt="Kakas Global premium agricultural export product"
-          fill
-          sizes="100vw"
-          className="object-cover"
-          priority={currentIndex === 0}
-        />
-        {/* Remove bottom gradient overlay since we have left gradient overlay in hero section */}
-      </div>
+      {/* All slides stacked — cinematic crossfade + Ken Burns on active slide */}
+      {images.map((src, index) => {
+        const isActive = index === currentIndex;
+        return (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-[1500ms] ease-in-out ${
+              isActive ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Image
+              src={src}
+              alt="Kakas Global premium agricultural export product"
+              fill
+              sizes="100vw"
+              className={`object-cover${isActive ? " slide-kenburns" : ""}`}
+              priority={index === 0}
+            />
+          </div>
+        );
+      })}
 
-      {/* Slideshow Indicators - Keep but position at bottom center */}
+      {/* Dot indicators */}
       <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2 z-20">
         {images.slice(0, Math.min(5, images.length)).map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
             className={`h-3 w-3 rounded-full transition-all ${
-              index === currentIndex 
-                ? 'bg-white scale-110' 
-                : 'bg-white/50 hover:bg-white/70'
+              index === currentIndex
+                ? "bg-white scale-110"
+                : "bg-white/50 hover:bg-white/70"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
 
-      {/* Navigation Arrows - Position at edges of viewport */}
+      {/* Navigation arrows */}
       {images.length > 1 && (
         <>
           <button
@@ -124,7 +111,6 @@ function AutoSlideshow({ images }: { images: string[] }) {
           </button>
         </>
       )}
-
     </div>
   );
 }
@@ -133,10 +119,20 @@ export default function Home() {
   // Get first 6 products for homepage display
   const featuredProducts = allProducts.slice(0, 6);
   
-  // Get images for homepage slideshow (first image from each product)
-  const slideshowImages = allProducts
-    .filter(product => product.images && product.images.length > 0)
-    .map(product => product.images![0]);
+  // Build slideshow images with Hibiscus Flower first, rest in original order
+  const slideshowProducts = allProducts.filter((p) => p.images && p.images.length > 0);
+  const hibiscusIdx = slideshowProducts.findIndex((p) =>
+    p.name.toLowerCase().includes("hibiscus")
+  );
+  const orderedProducts =
+    hibiscusIdx > 0
+      ? [
+          slideshowProducts[hibiscusIdx],
+          ...slideshowProducts.slice(0, hibiscusIdx),
+          ...slideshowProducts.slice(hibiscusIdx + 1),
+        ]
+      : slideshowProducts;
+  const slideshowImages = orderedProducts.map((p) => p.images![0]);
 
   const stats = [
     { value: "15+", label: "Years Experience" },
