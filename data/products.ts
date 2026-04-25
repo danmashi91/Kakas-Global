@@ -118,9 +118,9 @@ export const products: Product[] = [
     name: "Hibiscus Flower",
     description: "Dried hibiscus flowers (Hibiscus sabdariffa) with deep red color, prized for herbal teas and natural colorants.",
     fullDescription:
-      "Our hibiscus flowers are cultivated in the fertile regions of Northern Nigeria, particularly Katsina, Kano, and Zamfara states. We offer deep red, well-dried hibiscus calyces (also known as Roselle or Zobo) that are carefully hand-picked and sun-dried to preserve their natural color, flavor, and nutritional properties. Nigerian hibiscus is highly sought after for its intense red color and tart flavor profile.",
+      "Our hibiscus flowers are cultivated in the fertile regions of Northern Nigeria, particularly Katsina, Kano, and Zamfara states. We offer deep red, well-dried hibiscus calyces (also known as Roselle or Zobo) that are carefully hand-picked and sun-dried to preserve their natural color, flavor, and nutritional properties. Nigerian hibiscus is highly sought after for its intense red color and tart flavor profile. We supply two main variants: Hibiscus Flower (whole dried calyces) and Hibiscus Sifting (smaller pieces and fines), suitable for different applications including tea blending, natural colorants, and extracts.",
     certifications: ["NAFDAC", "SON", "NEPC"],
-    forms: ["Dried Whole", "Dried Cut", "Powdered"],
+    forms: ["Hibiscus Flower", "Hibiscus Sifting"],
     moq: "1 x 20ft Container",
     origin: "Nigeria",
     images: [
