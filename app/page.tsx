@@ -13,7 +13,6 @@ function AutoSlideshow({ images }: { images: string[] }) {
   useEffect(() => {
     if (images.length <= 1) return;
 
-    // First slide holds 8s, then all subsequent slides at 5s via setInterval
     timerRef.current = setTimeout(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
       timerRef.current = setInterval(() => {
@@ -54,7 +53,6 @@ function AutoSlideshow({ images }: { images: string[] }) {
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* All slides stacked — cinematic crossfade + Ken Burns on active slide */}
       {images.map((src, index) => {
         const isActive = index === currentIndex;
         return (
@@ -97,17 +95,17 @@ function AutoSlideshow({ images }: { images: string[] }) {
         <>
           <button
             onClick={() => goToSlide((currentIndex - 1 + images.length) % images.length)}
-            className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-4 rounded-full backdrop-blur-sm transition-all z-20 hover:scale-110"
+            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-3 sm:p-4 rounded-full backdrop-blur-sm transition-all z-20 hover:scale-110"
             aria-label="Previous slide"
           >
-            <ChevronLeft className="h-6 w-6 text-white" />
+            <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </button>
           <button
             onClick={() => goToSlide((currentIndex + 1) % images.length)}
-            className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-4 rounded-full backdrop-blur-sm transition-all z-20 hover:scale-110"
+            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-3 sm:p-4 rounded-full backdrop-blur-sm transition-all z-20 hover:scale-110"
             aria-label="Next slide"
           >
-            <ChevronRight className="h-6 w-6 text-white" />
+            <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </button>
         </>
       )}
@@ -116,10 +114,8 @@ function AutoSlideshow({ images }: { images: string[] }) {
 }
 
 export default function Home() {
-  // Get first 6 products for homepage display
   const featuredProducts = allProducts.slice(0, 6);
   
-  // Build slideshow images with Hibiscus Flower first, rest in original order
   const slideshowProducts = allProducts.filter((p) => p.images && p.images.length > 0);
   const hibiscusIdx = slideshowProducts.findIndex((p) =>
     p.name.toLowerCase().includes("hibiscus")
@@ -134,20 +130,11 @@ export default function Home() {
       : slideshowProducts;
   const slideshowImages = orderedProducts.map((p) => p.images![0]);
 
-  const stats = [
-    { value: "15+", label: "Years Experience" },
-    { value: "50+", label: "Countries Served" },
-    { value: "10,000+", label: "Metric Tons Exported" },
-    { value: "100%", label: "Quality Guarantee" },
-  ];
-
   const certifications = [
     "NAFDAC Certified",
     "SON Certified",
-    "EU Compliant",
-    "FDA Standards",
-    "ISO 22000",
-    "HACCP",
+    "NEPC",
+    "CAC Registered — RC: 9107874",
   ];
 
   const organizationJsonLd = {
@@ -186,14 +173,14 @@ export default function Home() {
         }}
       />
       {/* Hero Section - Full-bleed slideshow background */}
-      <section className="relative h-screen w-full overflow-hidden">
+      <section className="relative h-screen max-h-[85vh] sm:max-h-none sm:h-screen w-full overflow-hidden">
         {/* Full-bleed slideshow background */}
         <div className="absolute inset-0 z-0">
           <AutoSlideshow images={slideshowImages} />
         </div>
         
         {/* Dark gradient overlay for text readability */}
-        <div className="absolute inset-0 z-1 bg-gradient-to-r from-black/55 via-black/20 to-transparent"></div>
+        <div className="absolute inset-0 z-1 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
         
         {/* Content container */}
         <div className="relative z-10 h-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -201,27 +188,27 @@ export default function Home() {
             <div className="w-full sm:max-w-[65%] lg:max-w-[50%] px-4 sm:pl-[5%] sm:pr-0">
               <div className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-500/20 px-4 py-2 text-sm font-medium text-white mb-6 backdrop-blur-sm">
                 <Globe className="h-4 w-4 mr-2" />
-                Exporting from Nigeria to the World Since 2010
+                Exporting from Nigeria to the World
               </div>
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white">
                 From Nigeria's Farms to the World's Markets
               </h1>
-              <p className="mt-6 text-lg leading-relaxed text-white/85">
+              <p className="mt-6 text-base sm:text-lg leading-relaxed text-white/85 max-w-prose">
                 KAKAS GLOBAL LIMITED is your trusted partner for premium agricultural raw materials.
                 We source, process, and export the finest Nigerian agricultural products to international buyers
                 with uncompromising quality and reliability.
               </p>
-              <div className="mt-10 flex flex-col sm:flex-row gap-4">
+              <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Link
                   href="/request-quote"
-                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-600 to-amber-600 px-8 py-3 text-base font-medium text-white shadow-lg hover:from-emerald-700 hover:to-amber-700 transition-all"
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-600 to-amber-600 px-8 py-3 text-base font-medium text-white shadow-lg hover:from-emerald-700 hover:to-amber-700 transition-all duration-200 w-full sm:w-auto"
                 >
                   Request Quote
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
                 <Link
                   href="/products"
-                  className="inline-flex items-center justify-center rounded-full border-2 border-white/30 bg-white/10 px-8 py-3 text-base font-medium text-white backdrop-blur-sm hover:bg-white/20 transition-colors"
+                  className="inline-flex items-center justify-center rounded-full border-2 border-white/30 bg-white/10 px-8 py-3 text-base font-medium text-white backdrop-blur-sm hover:bg-white/20 transition-colors duration-200 w-full sm:w-auto"
                 >
                   View Products
                 </Link>
@@ -242,36 +229,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="bg-white py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-4xl font-bold text-emerald-700">{stat.value}</div>
-                <div className="mt-2 text-sm font-medium text-gray-600">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Featured Products */}
-      <section className="bg-gray-50 py-20">
+      <section className="bg-gray-50 py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
               Our Premium Products
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-gray-600">
+            <p className="mt-4 text-base sm:text-lg leading-relaxed text-gray-600 max-w-prose mx-auto">
               High-quality agricultural raw materials sourced directly from Nigerian farms
             </p>
           </div>
-          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProducts.map((product) => (
               <div
                 key={product.id}
-                className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-200 hover:shadow-xl"
+                className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="aspect-[4/3] relative overflow-hidden">
                   {product.images && product.images.length > 0 ? (
@@ -289,16 +262,19 @@ export default function Home() {
                     </div>
                   )}
                 </div>
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   <h3 className="text-xl font-bold text-gray-900">{product.name}</h3>
-                  <p className="mt-2 text-gray-600 line-clamp-2">
+                  <p className="mt-2 text-gray-600 line-clamp-2 text-base leading-relaxed">
                     {product.description}
                   </p>
                   <div className="mt-4 flex items-center justify-between">
-                    <span className="text-sm font-medium text-emerald-700">{product.moq}</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+                      {product.moq}
+                    </span>
                     <Link
                       href={`/products/${product.id}`}
-                      className="text-emerald-600 hover:text-emerald-700"
+                      className="text-emerald-600 hover:text-emerald-700 transition-colors duration-200"
+                      aria-label={`View details for ${product.name}`}
                     >
                       <ArrowRight className="h-5 w-5" />
                     </Link>
@@ -310,7 +286,7 @@ export default function Home() {
           <div className="mt-12 text-center">
             <Link
               href="/products"
-              className="inline-flex items-center rounded-full border-2 border-emerald-600 px-8 py-3 text-base font-medium text-emerald-600 hover:bg-emerald-50 transition-colors"
+              className="inline-flex items-center rounded-full border-2 border-emerald-600 px-8 py-3 text-base font-medium text-emerald-600 hover:bg-emerald-50 transition-colors duration-200"
             >
               View All Products
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -320,29 +296,29 @@ export default function Home() {
       </section>
 
       {/* Certifications & Quality */}
-      <section className="bg-white py-20">
+      <section className="bg-white py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
                 Certified Quality & Compliance
               </h2>
-              <p className="mt-4 text-lg leading-relaxed text-gray-600">
+              <p className="mt-4 text-base sm:text-lg leading-relaxed text-gray-600 max-w-prose">
                 We adhere to the highest international standards to ensure our products meet
                 regulatory requirements in all destination markets.
               </p>
               <div className="mt-8 grid grid-cols-2 gap-4">
                 {certifications.map((cert) => (
                   <div key={cert} className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-emerald-500" />
-                    <span className="ml-3 text-gray-700">{cert}</span>
+                    <CheckCircle className="h-5 w-5 text-emerald-500 flex-shrink-0" />
+                    <span className="ml-3 text-gray-700 text-sm sm:text-base">{cert}</span>
                   </div>
                 ))}
               </div>
               <div className="mt-10">
                 <Link
                   href="/quality"
-                  className="inline-flex items-center text-emerald-600 hover:text-emerald-700 font-medium"
+                  className="inline-flex items-center text-emerald-600 hover:text-emerald-700 font-medium transition-colors duration-200"
                 >
                   Learn about our quality process
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -381,19 +357,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-gradient-to-r from-emerald-700 to-emerald-800 py-20">
+      {/* CAC Registration Badge */}
+      <div className="bg-white py-6 border-t border-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <p className="text-sm text-gray-500">
+            KAKAS GLOBAL LIMITED — CAC Registration: RC 9107874
+          </p>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <section className="bg-gradient-to-r from-emerald-700 to-emerald-800 py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
             Ready to Source Premium Agricultural Products?
           </h2>
-          <p className="mt-4 text-lg text-emerald-100">
+          <p className="mt-4 text-base sm:text-lg text-emerald-100 max-w-prose mx-auto">
             Get competitive pricing, samples, and full documentation for your import needs.
           </p>
           <div className="mt-10">
             <Link
               href="/contact"
-              className="inline-flex items-center rounded-full bg-white px-8 py-3 text-base font-medium text-emerald-700 shadow-lg hover:bg-gray-100 transition-colors"
+              className="inline-flex items-center rounded-full bg-white px-8 py-3 text-base font-medium text-emerald-700 shadow-lg hover:bg-gray-100 transition-colors duration-200"
             >
               Contact Our Export Team
               <ArrowRight className="ml-2 h-5 w-5" />

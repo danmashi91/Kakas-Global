@@ -7,7 +7,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const product = getProductById(parseInt(id));
+  const product = getProductById(id);
 
   if (!product) {
     return {

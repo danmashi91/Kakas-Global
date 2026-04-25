@@ -26,7 +26,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/90 backdrop-blur-lg">
+    <nav className="sticky top-0 z-50 w-full border-b border-white/20 bg-white/30 backdrop-blur-xl shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
@@ -34,10 +34,10 @@ const Navbar = () => {
             <Link href="/" className="flex items-center">
               <Image
                 src="/logo.svg"
-                alt="Kakas Global Limited"
-                width={160}
-                height={64}
-                className="h-16 w-auto"
+                alt="KAKAS GLOBAL LIMITED"
+                width={180}
+                height={32}
+                className="h-10 w-auto"
                 priority
               />
             </Link>
@@ -49,10 +49,10 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-emerald-700 ${
+                className={`text-sm font-medium transition-all duration-300 ${
                   item.highlight
-                    ? "rounded-full bg-gradient-to-r from-emerald-600 to-amber-600 px-4 py-2 text-white hover:from-emerald-700 hover:to-amber-700"
-                    : "text-gray-700"
+                    ? "rounded-full bg-gradient-to-r from-emerald-600 to-amber-600 px-4 py-2 text-white hover:from-emerald-700 hover:to-amber-700 hover:shadow-lg hover:shadow-emerald-500/25"
+                    : "text-gray-700 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-emerald-600 after:transition-all after:duration-300 hover:text-emerald-700 hover:after:w-full"
                 }`}
               >
                 {item.name}

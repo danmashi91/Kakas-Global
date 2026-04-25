@@ -95,7 +95,7 @@ export default function ServicesPage() {
     },
     {
       term: "EXW (Ex Works)",
-      description: "Buyer collects goods from our warehouse and handles all transportation and export formalities.",
+      description: "Goods are made available at our facility. Buyer arranges collection, transportation, and all export/import formalities.",
       bestFor: "Buyers with strong logistics capabilities in Nigeria"
     }
   ];

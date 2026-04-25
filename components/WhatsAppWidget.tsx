@@ -1,6 +1,7 @@
 "use client";
 
-import { MessageCircle, X, Mail } from "lucide-react";
+import Image from "next/image";
+import { X, Mail } from "lucide-react";
 import { useState } from "react";
 
 const WhatsAppWidget = () => {
@@ -39,7 +40,13 @@ const WhatsAppWidget = () => {
               className="w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-2.5 px-4 rounded-lg transition-colors text-sm font-medium"
               aria-label="Open WhatsApp chat with Kakas Global"
             >
-              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+              <Image
+                src="/social.png"
+                alt="WhatsApp"
+                width={16}
+                height={16}
+                className="h-4 w-4"
+              />
               Chat on WhatsApp
             </button>
             <button
@@ -64,7 +71,13 @@ const WhatsAppWidget = () => {
         {isOpen ? (
           <X className="h-6 w-6" aria-hidden="true" />
         ) : (
-          <MessageCircle className="h-7 w-7" aria-hidden="true" />
+          <Image
+            src="/social.png"
+            alt="WhatsApp"
+            width={28}
+            height={28}
+            className="h-7 w-7"
+          />
         )}
       </button>
     </>

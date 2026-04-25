@@ -1,196 +1,196 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 
-const Footer = () => {
-  const products = [
-    "Cashew Nuts",
-    "Sesame Seeds",
-    "Shea Butter",
-    "Hibiscus Flower",
-    "Dried Split Ginger",
-    "Charcoal",
-    "Palm Kernel Shell",
-    "Moringa",
-    "Soybeans",
-  ];
-
-  const services = [
-    "Sourcing & Procurement",
-    "Quality Control",
-    "Logistics & Shipping",
-    "Custom Packaging",
-    "Documentation & Compliance",
-  ];
-
-  const company = [
-    { name: "About Us", href: "/about" },
-    { name: "Quality Assurance", href: "/quality" },
-    { name: "Our Services", href: "/services" },
-    { name: "Contact Us", href: "/contact" },
-  ];
+export default function Footer() {
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-white">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
+    <footer className="bg-gray-900 text-gray-300">
+      {/* Main Footer */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Company Info */}
-          <div className="lg:col-span-1">
-            <div className="mb-6">
-              <div className="mb-4">
-                <Image
-                  src="/logo.svg"
-                  alt="Kakas Global Limited"
-                  width={200}
-                  height={80}
-                  className="h-20 w-auto filter brightness-0 invert"
-                />
+          <div className="sm:col-span-2 lg:col-span-1">
+            <Link href="/" className="inline-block">
+              <Image
+                src="/logo-white.svg"
+                alt="KAKAS GLOBAL LIMITED"
+                width={180}
+                height={32}
+                className="h-10 w-auto"
+              />
+            </Link>
+            <p className="mt-4 text-sm leading-relaxed text-gray-400">
+              Connecting Nigeria's farms to the world's markets.
+            </p>
+            <div className="mt-6 space-y-3">
+              <div className="flex items-start">
+                <MapPin className="h-5 w-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <span className="ml-3 text-sm">
+                  44 Ahmadu Bello Way, Nasarawa GRA,<br />
+                  Kano, Nigeria
+                </span>
               </div>
-              <p className="text-gray-300 mb-6">
-                Leading Nigerian exporter of premium agricultural raw materials to international markets. 
-                Connecting Nigeria's farms to the world's markets since 2010.
-              </p>
+              <div className="flex items-center">
+                <Phone className="h-5 w-5 text-emerald-400 flex-shrink-0" />
+                <a
+                  href="tel:+2347040581036"
+                  className="ml-3 text-sm hover:text-emerald-400 transition-colors"
+                >
+                  +234 704 058 1036
+                </a>
+              </div>
+              <div className="flex items-center">
+                <Mail className="h-5 w-5 text-emerald-400 flex-shrink-0" />
+                <a
+                  href="mailto:info@kakasglobal.com"
+                  className="ml-3 text-sm hover:text-emerald-400 transition-colors"
+                >
+                  info@kakasglobal.com
+                </a>
+              </div>
             </div>
-            <div className="flex space-x-4">
+            <div className="mt-6 flex gap-4">
               <a
                 href="https://www.linkedin.com/company/kakas-global"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors text-sm"
-                aria-label="Kakas Global on LinkedIn"
+                className="rounded-full bg-gray-800 p-2 hover:bg-emerald-600 transition-colors"
+                aria-label="LinkedIn"
               >
-                LinkedIn
+                <Image
+                  src="/linkedin.png"
+                  alt="LinkedIn"
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
               </a>
               <a
                 href="https://www.facebook.com/kakasglobal"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors text-sm"
-                aria-label="Kakas Global on Facebook"
+                className="rounded-full bg-gray-800 p-2 hover:bg-emerald-600 transition-colors"
+                aria-label="Facebook"
               >
-                Facebook
-              </a>
-              <a
-                href="https://www.instagram.com/kakasglobal"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors text-sm"
-                aria-label="Kakas Global on Instagram"
-              >
-                Instagram
+                <Image
+                  src="/facebook.png"
+                  alt="Facebook"
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
               </a>
             </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Quick Links</h3>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <Link href="/about" className="text-sm hover:text-emerald-400 transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/products" className="text-sm hover:text-emerald-400 transition-colors">
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link href="/services" className="text-sm hover:text-emerald-400 transition-colors">
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link href="/quality" className="text-sm hover:text-emerald-400 transition-colors">
+                  Quality Assurance
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-sm hover:text-emerald-400 transition-colors">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/request-quote" className="text-sm hover:text-emerald-400 transition-colors">
+                  Request Quote
+                </Link>
+              </li>
+            </ul>
           </div>
 
           {/* Products */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Our Products</h3>
-            <ul className="space-y-2">
-              {products.map((product) => (
-                <li key={product}>
-                  <Link
-                    href="/products"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors duration-200"
-                  >
-                    {product}
-                  </Link>
-                </li>
-              ))}
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Our Products</h3>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <Link href="/products/cashew-nuts" className="text-sm hover:text-emerald-400 transition-colors">
+                  Cashew Nuts
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/sesame-seeds" className="text-sm hover:text-emerald-400 transition-colors">
+                  Sesame Seeds
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/shea-butter" className="text-sm hover:text-emerald-400 transition-colors">
+                  Shea Butter
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/hibiscus-flower" className="text-sm hover:text-emerald-400 transition-colors">
+                  Hibiscus Flower
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/dried-split-ginger" className="text-sm hover:text-emerald-400 transition-colors">
+                  Dried Split Ginger
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/moringa" className="text-sm hover:text-emerald-400 transition-colors">
+                  Moringa
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Newsletter / CTA */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Our Services</h3>
-            <ul className="space-y-2">
-              {services.map((service) => (
-                <li key={service}>
-                  <Link
-                    href="/services"
-                    className="text-gray-300 hover:text-emerald-400 transition-colors"
-                  >
-                    {service}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact & Newsletter */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-            <ul className="space-y-3 mb-6">
-              <li className="flex items-start space-x-3">
-                <MapPin className="h-5 w-5 text-emerald-400 mt-0.5" />
-                <span className="text-gray-300">
-                  44 Ahmadu Bello Way, Nasarawa GRA<br />
-                  Kano, Nigeria
-                </span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Phone className="h-5 w-5 text-emerald-400" />
-                <a href="tel:+2347040581036" className="text-gray-300 hover:text-emerald-400">
-                  +234 704 058 1036
-                </a>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Mail className="h-5 w-5 text-emerald-400" />
-                <a href="mailto:info@kakasglobal.com" className="text-gray-300 hover:text-emerald-400">
-                  info@kakasglobal.com
-                </a>
-              </li>
-            </ul>
-
-            {/* Newsletter */}
-            <div>
-              <h4 className="text-sm font-semibold mb-2 text-gray-300">Market Updates</h4>
-              <form className="flex flex-col space-y-2">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="px-3 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                />
-                <button
-                  type="submit"
-                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-600 to-amber-600 text-white font-medium hover:from-emerald-700 hover:to-amber-700 transition-all"
-                >
-                  Subscribe
-                </button>
-              </form>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Get In Touch</h3>
+            <p className="mt-4 text-sm text-gray-400">
+              Ready to source premium agricultural products? Contact our export team for competitive pricing and full documentation.
+            </p>
+            <div className="mt-6">
+              <Link
+                href="/contact"
+                className="inline-flex items-center rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 transition-colors"
+              >
+                Contact Us
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-800">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 text-sm">
-              &copy; {new Date().getFullYear()} KAKAS GLOBAL LIMITED. All rights reserved.
-            </div>
-            <div className="flex flex-wrap gap-4 mt-4 md:mt-0">
-              <Link href="/about" className="text-gray-400 hover:text-white text-sm">
-                About Us
-              </Link>
-              <Link href="/quality" className="text-gray-400 hover:text-white text-sm">
-                Quality
-              </Link>
-              <Link href="/services" className="text-gray-400 hover:text-white text-sm">
-                Services
-              </Link>
-              <Link href="/contact" className="text-gray-400 hover:text-white text-sm">
-                Contact
-              </Link>
-            </div>
-          </div>
-          <div className="mt-4 text-xs text-gray-500">
-            <p>
-              KAKAS GLOBAL LIMITED is registered with the Nigerian Corporate Affairs Commission (CAC) and 
-              certified by NAFDAC, SON, and other relevant export regulatory bodies.
+      {/* Bottom Bar */}
+      <div className="border-t border-gray-800">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-xs text-gray-500">
+              &copy; {currentYear} KAKAS GLOBAL LIMITED. All rights reserved.
+            </p>
+            <p className="text-xs text-gray-500 text-center sm:text-right max-w-2xl">
+              KAKAS GLOBAL LIMITED is registered with the Corporate Affairs Commission (CAC) — RC: 9107874 — and certified by NAFDAC, SON, NEPC, and other relevant export regulatory bodies.
             </p>
           </div>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}
