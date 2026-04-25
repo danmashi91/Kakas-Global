@@ -14,11 +14,11 @@ export default function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block">
               <Image
-                src="/logo-white.svg"
+                src="/logo-stacked.svg"
                 alt="KAKAS GLOBAL LIMITED"
-                width={180}
-                height={32}
-                className="h-10 w-auto"
+                width={160}
+                height={60}
+                className="h-16 w-auto"
               />
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-gray-400">
