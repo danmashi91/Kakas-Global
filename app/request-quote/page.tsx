@@ -8,6 +8,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const emptyQuoteForm = {
   product: "",
+  variant: "",
   quantity: "",
   unit: "MT",
   incoterm: "FOB",
@@ -183,13 +184,59 @@ export default function RequestQuotePage() {
                   ))}
                 </div>
                 
+                {/* Variant Selector — shown only for Hibiscus Flower */}
+                {formData.product === "Hibiscus Flower (Zobo)" && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
+                    <h3 className="text-lg font-bold text-gray-900 mb-3">Select Variant</h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      We offer two variants of hibiscus. Please select your preferred option:
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div
+                        className={`border-2 rounded-xl p-5 cursor-pointer transition-all ${
+                          formData.variant === "Hibiscus Flower"
+                            ? "border-emerald-500 bg-emerald-50"
+                            : "border-gray-200 hover:border-emerald-300 bg-white"
+                        }`}
+                        onClick={() => setFormData({ ...formData, variant: "Hibiscus Flower" })}
+                      >
+                        <h4 className="font-bold text-gray-900">Hibiscus Flower</h4>
+                        <p className="mt-1 text-sm text-gray-600">Whole dried calyces — ideal for tea blending, natural colorants, and premium extracts.</p>
+                        {formData.variant === "Hibiscus Flower" && (
+                          <div className="mt-3 flex items-center text-emerald-600">
+                            <CheckCircle className="h-4 w-4 mr-1.5" />
+                            <span className="text-sm font-medium">Selected</span>
+                          </div>
+                        )}
+                      </div>
+                      <div
+                        className={`border-2 rounded-xl p-5 cursor-pointer transition-all ${
+                          formData.variant === "Hibiscus Sifting"
+                            ? "border-emerald-500 bg-emerald-50"
+                            : "border-gray-200 hover:border-emerald-300 bg-white"
+                        }`}
+                        onClick={() => setFormData({ ...formData, variant: "Hibiscus Sifting" })}
+                      >
+                        <h4 className="font-bold text-gray-900">Hibiscus Sifting</h4>
+                        <p className="mt-1 text-sm text-gray-600">Smaller pieces and fines — suitable for extracts, infusions, and cost-effective applications.</p>
+                        {formData.variant === "Hibiscus Sifting" && (
+                          <div className="mt-3 flex items-center text-emerald-600">
+                            <CheckCircle className="h-4 w-4 mr-1.5" />
+                            <span className="text-sm font-medium">Selected</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
                 <div className="pt-6 border-t">
                   <div className="flex justify-between">
                     <div></div>
                     <button
                       type="button"
                       onClick={nextStep}
-                      disabled={!formData.product}
+                      disabled={!formData.product || (formData.product === "Hibiscus Flower (Zobo)" && !formData.variant)}
                       className="inline-flex items-center rounded-full bg-gradient-to-r from-emerald-600 to-amber-600 px-8 py-3 text-base font-medium text-white shadow-lg hover:from-emerald-700 hover:to-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     >
                       Next: Quantity & Terms
@@ -439,7 +486,10 @@ export default function RequestQuotePage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-gray-600">Product</p>
-                      <p className="font-medium text-gray-900">{formData.product || "Not selected"}</p>
+                      <p className="font-medium text-gray-900">
+                        {formData.product || "Not selected"}
+                        {formData.variant && ` — ${formData.variant}`}
+                      </p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Quantity</p>
